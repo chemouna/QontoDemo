@@ -16,5 +16,6 @@ public interface TypicodeApi {
     @GET("/users/{userId}/albums")
     Observable<List<Album>> getAlbums(@Path("userId") int userId);
 
-    Observable<List<Photo>> getPhotos();
+    @GET("/albums/{albumId}/photos")
+    Observable<List<Photo>> getPhotos(@Path("albumId") int userId);
 }

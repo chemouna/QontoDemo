@@ -3,7 +3,6 @@ package com.myapp.ui.album;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import butterknife.BindView;
@@ -18,7 +17,6 @@ public class AlbumActivity extends AppCompatActivity {
     private Album album;
 
     @BindView(R.id.album_view) AlbumView albumView;
-
 
     public static void start(Context context, Album album) {
         Intent intent = new Intent(context, AlbumActivity.class);
@@ -40,5 +38,4 @@ public class AlbumActivity extends AppCompatActivity {
         setTitle(album.getTitle());
         albumView.display(album);
     }
-
 }

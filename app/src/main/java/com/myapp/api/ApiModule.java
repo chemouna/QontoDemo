@@ -2,6 +2,7 @@ package com.myapp.api;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.myapp.BuildConfig;
+import com.squareup.picasso.Picasso;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.schedulers.Schedulers;

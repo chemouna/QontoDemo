@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.myapp.MyApp;
@@ -17,6 +18,7 @@ import com.myapp.R;
 import com.myapp.api.TypicodeApi;
 import com.myapp.ui.recyclerview.ClickItemTouchListener;
 import com.myapp.ui.recyclerview.RecyclerViewWithEmptyProgress;
+import com.myapp.ui.recyclerview.decoration.DividerItemDecoration;
 import com.myapp.ui.user.UserActivity;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import javax.inject.Inject;
@@ -31,6 +33,7 @@ public class UsersView extends LinearLayout implements UsersScreen {
     @BindView(R.id.usersRv) RecyclerViewWithEmptyProgress usersRv;
     @BindView(R.id.tv_empty) TextView tvEmpty;
     @BindView(R.id.progress) ProgressBar progressBar;
+    @BindDimen(R.dimen.divider_padding_start) float dividerPaddingStart;
 
     public UsersView(Context context) {
         this(context, null);
@@ -58,6 +61,10 @@ public class UsersView extends LinearLayout implements UsersScreen {
         usersRv.setAdapter(userAdapter);
         usersRv.setEmptyView(tvEmpty);
         usersRv.setProgress(progressBar);
+
+        usersRv.addItemDecoration(
+            new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL,
+                dividerPaddingStart, false));
 
         usersRv.addOnItemTouchListener(new ClickItemTouchListener(usersRv) {
             @Override
