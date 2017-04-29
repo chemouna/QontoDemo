@@ -2,6 +2,6 @@
 <resources>
 
   <dimen name="spacing_very_small">2dp</dimen>
-  <dimen name="divider_padding_start">106dp</dimen>
+  <dimen name="divider_padding_start">4dp</dimen>
 
 </resources>

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.myapp.R;
@@ -45,11 +46,13 @@ class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>
     @Override
     public void accept(@NonNull List<Photo> photos) throws Exception {
         this.photos.addAll(photos);
+        notifyDataSetChanged();
     }
 
     class PhotoViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.photoIv) ImageView photoIv;
+        @BindView(R.id.photoTitle) TextView photoTitle;
 
         PhotoViewHolder(View itemView) {
             super(itemView);
@@ -57,7 +60,8 @@ class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>
         }
 
         void bind(Photo photo) {
-            picasso.load(photo.getUrl()).into(photoIv);
+            picasso.load(photo.getThumbnailUrl()).into(photoIv);
+            photoTitle.setText(photo.getTitle());
         }
     }
 }

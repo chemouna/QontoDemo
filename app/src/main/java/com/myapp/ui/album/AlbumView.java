@@ -3,7 +3,6 @@ package com.myapp.ui.album;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,12 +62,10 @@ public class AlbumView extends LinearLayout implements AlbumScreen {
 
         final int spacing = getResources().getDimensionPixelSize(R.dimen.spacing_very_small);
         photosRv.addItemDecoration(new OffsetDecoration(spacing));
-
     }
 
     public void display(Album album) {
         //TODO: handle error cases
         presenter.fetchPhotos(album.getId(), photoAdapter);
     }
-
 }

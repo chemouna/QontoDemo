@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.myapp.MyApp;
@@ -20,6 +21,7 @@ import com.myapp.model.User;
 import com.myapp.ui.album.AlbumActivity;
 import com.myapp.ui.recyclerview.ClickItemTouchListener;
 import com.myapp.ui.recyclerview.RecyclerViewWithEmptyProgress;
+import com.myapp.ui.recyclerview.decoration.DividerItemDecoration;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import javax.inject.Inject;
 
@@ -30,6 +32,7 @@ public class UserView extends LinearLayout implements UserScreen {
     @BindView(R.id.albumsRv) RecyclerViewWithEmptyProgress albumsRv;
     @BindView(R.id.tv_empty) TextView tvEmpty;
     @BindView(R.id.progress) ProgressBar progressBar;
+    @BindDimen(R.dimen.divider_padding_start) float dividerPaddingStart;
 
     UserPresenter presenter;
     private AlbumAdapter albumAdapter;
@@ -63,6 +66,10 @@ public class UserView extends LinearLayout implements UserScreen {
         albumsRv.setAdapter(albumAdapter);
         albumsRv.setEmptyView(tvEmpty);
         albumsRv.setProgress(progressBar);
+
+        albumsRv.addItemDecoration(
+            new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL,
+                dividerPaddingStart, false));
 
         albumsRv.addOnItemTouchListener(new ClickItemTouchListener(albumsRv) {
             @Override
