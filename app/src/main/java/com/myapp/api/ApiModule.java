@@ -2,7 +2,6 @@ package com.myapp.api;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.myapp.BuildConfig;
-import com.squareup.picasso.Picasso;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.schedulers.Schedulers;
@@ -12,8 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@Module
-public class ApiModule {
+@Module public class ApiModule {
 
     @Provides
     @Singleton
@@ -38,5 +36,4 @@ public class ApiModule {
     TypicodeApi provideSherpaApi(Retrofit retrofit) {
         return retrofit.create(TypicodeApi.class);
     }
-
 }

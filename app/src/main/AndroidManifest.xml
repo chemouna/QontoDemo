@@ -27,7 +27,8 @@
     <activity android:name=".ui.user.UserActivity"
         android:parentActivityName=".MainActivity" />
 
-    <activity android:name=".ui.album.AlbumActivity"/>
+    <activity android:name=".ui.album.AlbumActivity"
+        android:parentActivityName=".ui.user.UserActivity" />
 
   </application>
 
