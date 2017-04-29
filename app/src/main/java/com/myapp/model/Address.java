@@ -4,9 +4,19 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import javax.annotation.concurrent.Immutable;
 
-@Immutable
-public class Address implements Parcelable {
+@Immutable public class Address implements Parcelable {
 
+    public static final Parcelable.Creator<Address> CREATOR = new Parcelable.Creator<Address>() {
+        @Override
+        public Address createFromParcel(Parcel source) {
+            return new Address(source);
+        }
+
+        @Override
+        public Address[] newArray(int size) {
+            return new Address[size];
+        }
+    };
     private final String street;
     private final String suite;
     private final String city;
@@ -19,6 +29,14 @@ public class Address implements Parcelable {
         this.city = city;
         this.zipcode = zipcode;
         this.geo = geo;
+    }
+
+    protected Address(Parcel in) {
+        this.street = in.readString();
+        this.suite = in.readString();
+        this.city = in.readString();
+        this.zipcode = in.readString();
+        this.geo = in.readParcelable(Geo.class.getClassLoader());
     }
 
     public String getStreet() {
@@ -54,24 +72,4 @@ public class Address implements Parcelable {
         dest.writeString(this.zipcode);
         dest.writeParcelable(this.geo, flags);
     }
-
-    protected Address(Parcel in) {
-        this.street = in.readString();
-        this.suite = in.readString();
-        this.city = in.readString();
-        this.zipcode = in.readString();
-        this.geo = in.readParcelable(Geo.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<Address> CREATOR = new Parcelable.Creator<Address>() {
-        @Override
-        public Address createFromParcel(Parcel source) {
-            return new Address(source);
-        }
-
-        @Override
-        public Address[] newArray(int size) {
-            return new Address[size];
-        }
-    };
 }

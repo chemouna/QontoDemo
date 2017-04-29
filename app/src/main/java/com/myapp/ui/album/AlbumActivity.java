@@ -13,10 +13,8 @@ import com.myapp.model.Album;
 public class AlbumActivity extends AppCompatActivity {
 
     private static final String EXTRA_ALBUM = "extra_album";
-
-    private Album album;
-
     @BindView(R.id.album_view) AlbumView albumView;
+    private Album album;
 
     public static void start(Context context, Album album) {
         Intent intent = new Intent(context, AlbumActivity.class);

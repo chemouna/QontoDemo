@@ -18,10 +18,11 @@ import okhttp3.OkHttpClient;
         return new Picasso.Builder(context).loggingEnabled(true)
             .downloader(new OkHttp3Downloader(client))
             .listener(new Picasso.Listener() {
-            @Override
-            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-                exception.printStackTrace();
-            }
-        }).build();
+                @Override
+                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+                    exception.printStackTrace();
+                }
+            })
+            .build();
     }
 }

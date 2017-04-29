@@ -4,9 +4,19 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import javax.annotation.concurrent.Immutable;
 
-@Immutable
-public final class Album implements Parcelable {
+@Immutable public final class Album implements Parcelable {
 
+    public static final Parcelable.Creator<Album> CREATOR = new Parcelable.Creator<Album>() {
+        @Override
+        public Album createFromParcel(Parcel source) {
+            return new Album(source);
+        }
+
+        @Override
+        public Album[] newArray(int size) {
+            return new Album[size];
+        }
+    };
     private final int userId;
     private final int id;
     private final String title;
@@ -15,6 +25,12 @@ public final class Album implements Parcelable {
         this.userId = userId;
         this.id = id;
         this.title = title;
+    }
+
+    protected Album(Parcel in) {
+        this.userId = in.readInt();
+        this.id = in.readInt();
+        this.title = in.readString();
     }
 
     public int getUserId() {
@@ -40,22 +56,4 @@ public final class Album implements Parcelable {
         dest.writeInt(this.id);
         dest.writeString(this.title);
     }
-
-    protected Album(Parcel in) {
-        this.userId = in.readInt();
-        this.id = in.readInt();
-        this.title = in.readString();
-    }
-
-    public static final Parcelable.Creator<Album> CREATOR = new Parcelable.Creator<Album>() {
-        @Override
-        public Album createFromParcel(Parcel source) {
-            return new Album(source);
-        }
-
-        @Override
-        public Album[] newArray(int size) {
-            return new Album[size];
-        }
-    };
 }

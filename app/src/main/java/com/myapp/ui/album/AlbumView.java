@@ -68,4 +68,10 @@ public class AlbumView extends LinearLayout implements AlbumScreen {
         //TODO: handle error cases
         presenter.fetchPhotos(album.getId(), photoAdapter);
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        presenter.unbind();
+        super.onDetachedFromWindow();
+    }
 }

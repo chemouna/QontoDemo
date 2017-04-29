@@ -1,4 +1,5 @@
 package com.myapp.ui.users;
 
-public interface UsersScreen {
+interface UsersScreen {
+    void onError(Throwable throwable);
 }

@@ -13,9 +13,8 @@ import com.myapp.model.User;
 public class UserActivity extends AppCompatActivity {
 
     private static final String EXTRA_USER = "user";
-    private User user;
-
     @BindView(R.id.user_view) UserView userView;
+    private User user;
 
     public static void start(Context context, User user) {
         Intent intent = new Intent(context, UserActivity.class);
@@ -37,5 +36,4 @@ public class UserActivity extends AppCompatActivity {
         setTitle(user.getName());
         userView.display(user);
     }
-
 }

@@ -30,13 +30,13 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder>
         holder.bind(users.get(position));
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
     @Override
     public int getItemCount() {
         return users.size();
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Override

@@ -1,6 +1,9 @@
+plugins {
+  id "me.tatarka.retrolambda" version "3.6.0"
+}
+
 apply plugin: 'com.android.application'
 apply from: '../gradle/quality.gradle'
-
 
 android {
   compileSdkVersion 25
@@ -25,6 +28,16 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  packagingOptions {
+    exclude 'META-INF/rxjava.properties'
+  }
+
 }
 
 dependencies {
@@ -53,6 +66,9 @@ dependencies {
 
   compile 'com.squareup.picasso:picasso:2.5.2'
   compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+
+  compile "com.squareup.sqlbrite:sqlbrite:1.1.1"
+  compile "com.github.akarnokd:rxjava2-interop:0.9.7"
 
   /********* Debug only dependencies *******/
   debugCompile "com.facebook.stetho:stetho:1.5.0"

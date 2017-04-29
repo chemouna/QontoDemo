@@ -2,11 +2,13 @@ package com.myapp.ui.album;
 
 import com.myapp.api.TypicodeApi;
 import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
 
 class AlbumPresenter {
 
     private final TypicodeApi api;
     private final Scheduler observeOnScheduler;
+    private Disposable disposable;
 
     AlbumPresenter(TypicodeApi api, Scheduler observeOnScheduler) {
         this.api = api;
@@ -14,6 +16,10 @@ class AlbumPresenter {
     }
 
     void fetchPhotos(int albumId, PhotoAdapter photoAdapter) {
-        api.getPhotos(albumId).observeOn(observeOnScheduler).subscribe(photoAdapter);
+        disposable = api.getPhotos(albumId).observeOn(observeOnScheduler).subscribe(photoAdapter);
+    }
+
+    void unbind() {
+        disposable.dispose();
     }
 }

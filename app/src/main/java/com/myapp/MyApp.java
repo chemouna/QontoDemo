@@ -7,6 +7,14 @@ public class MyApp extends Application {
     private static MyApp instance;
     private AppComponent component;
 
+    public static AppComponent getAppComponent() {
+        return instance.getComponent();
+    }
+
+    public AppComponent getComponent() {
+        return component;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -17,13 +25,5 @@ public class MyApp extends Application {
 
     protected void initAppComponent() {
         component = AppComponent.Initializer.init(this);
-    }
-
-    public static AppComponent getAppComponent() {
-        return instance.getComponent();
-    }
-
-    public AppComponent getComponent() {
-        return component;
     }
 }

@@ -1,7 +1,12 @@
 package com.myapp.ui.users;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -16,6 +21,7 @@ import butterknife.ButterKnife;
 import com.myapp.MyApp;
 import com.myapp.R;
 import com.myapp.api.TypicodeApi;
+import com.myapp.data.UsersManager;
 import com.myapp.ui.recyclerview.ClickItemTouchListener;
 import com.myapp.ui.recyclerview.RecyclerViewWithEmptyProgress;
 import com.myapp.ui.recyclerview.decoration.DividerItemDecoration;
@@ -25,15 +31,16 @@ import javax.inject.Inject;
 
 public class UsersView extends LinearLayout implements UsersScreen {
 
-    private UserAdapter userAdapter;
-    private UsersPresenter presenter;
-
     @Inject TypicodeApi api;
+    @Inject UsersManager usersManager;
 
     @BindView(R.id.usersRv) RecyclerViewWithEmptyProgress usersRv;
     @BindView(R.id.tv_empty) TextView tvEmpty;
     @BindView(R.id.progress) ProgressBar progressBar;
     @BindDimen(R.dimen.divider_padding_start) float dividerPaddingStart;
+
+    private UserAdapter userAdapter;
+    private UsersPresenter presenter;
 
     public UsersView(Context context) {
         this(context, null);
@@ -50,9 +57,11 @@ public class UsersView extends LinearLayout implements UsersScreen {
         ButterKnife.bind(this, view);
         MyApp.getAppComponent().inject(this);
 
-        presenter = new UsersPresenter(api, AndroidSchedulers.mainThread());
+        presenter = new UsersPresenter(api, usersManager, AndroidSchedulers.mainThread(), this);
         setupUsersRv();
-        presenter.fetchUsers(userAdapter);
+
+        presenter.fetchUsers(userAdapter, isNetworkAvailable());
+
     }
 
     private void setupUsersRv() {
@@ -70,7 +79,12 @@ public class UsersView extends LinearLayout implements UsersScreen {
             @Override
             protected boolean performItemClick(RecyclerView parent, View view, int position,
                 long id) {
-                UserActivity.start(getContext(), userAdapter.getUser(position));
+                if(isNetworkAvailable()) {
+                    UserActivity.start(getContext(), userAdapter.getUser(position));
+                }
+                else {
+                    displayError(R.string.network_unavailable);
+                }
                 return true;
             }
 
@@ -86,5 +100,32 @@ public class UsersView extends LinearLayout implements UsersScreen {
                 //NO-OP
             }
         });
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+            = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        presenter.unbind();
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        if(isNetworkAvailable()) {
+            displayError(R.string.error_occured);
+        }
+        else {
+            displayError(R.string.network_unavailable);
+        }
+    }
+
+    private void displayError(@StringRes int resId) {
+        Snackbar.make(usersRv, resId, Snackbar.LENGTH_LONG).show();
     }
 }

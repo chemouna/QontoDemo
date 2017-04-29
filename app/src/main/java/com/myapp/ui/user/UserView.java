@@ -2,6 +2,7 @@ package com.myapp.ui.user;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -16,7 +17,6 @@ import butterknife.ButterKnife;
 import com.myapp.MyApp;
 import com.myapp.R;
 import com.myapp.api.TypicodeApi;
-import com.myapp.model.Album;
 import com.myapp.model.User;
 import com.myapp.ui.album.AlbumActivity;
 import com.myapp.ui.recyclerview.ClickItemTouchListener;
@@ -52,12 +52,8 @@ public class UserView extends LinearLayout implements UserScreen {
         ButterKnife.bind(this, view);
         MyApp.getAppComponent().inject(this);
 
-        presenter = new UserPresenter(api, AndroidSchedulers.mainThread());
+        presenter = new UserPresenter(api, AndroidSchedulers.mainThread(), this);
         setupAlbumsRv();
-    }
-
-    public void display(User user) {
-        presenter.fetchAlbums(user.getId(), albumAdapter);
     }
 
     private void setupAlbumsRv() {
@@ -91,6 +87,20 @@ public class UserView extends LinearLayout implements UserScreen {
                 //NO-OP
             }
         });
+    }
 
+    public void display(User user) {
+        presenter.fetchAlbums(user.getId(), albumAdapter);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        presenter.unbind();
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Snackbar.make(albumsRv, R.string.error_occured, Snackbar.LENGTH_LONG).show();
     }
 }
