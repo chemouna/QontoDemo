@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="InconsistentLayout">
+        <ignore regexp="res/layout/*"/>
+    </issue>
+    <issue id="InvalidPackage">
+        <ignore regexp="org.junit.internal.runners.statements.FailOnTimeout"/>
+        <ignore regexp="okio.Okio"/>
+        <ignore regexp=".*okio.*"/>
+        <ignore regexp=".*retrofit.*"/>
+    </issue>
+    <issue id="ContentDescription" severity="ignore"/>
+    <issue id="InvalidPackage" severity="error">
+        <ignore regexp="okio.*jar" />
+    </issue>
+
+
+</lint>

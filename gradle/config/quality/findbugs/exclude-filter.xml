@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+  <Match>
+    <Class name="~.*\.R\$.*"/>
+  </Match>
+  <Match>
+    <Class name="~.*\.Manifest\$.*"/>
+  </Match>
+  <Match>
+    <Class name="~.*\.*Test"/>
+    <Not>
+      <Bug code="IJU"/>
+    </Not>
+  </Match>
+  <Match>
+    <Class name="~.*\.java\.*"/>
+  </Match>
+  <Match>
+    <Class name="~.*\.android\.*"/>
+  </Match>
+  <Match>
+    <Class name="android\.*"/>
+  </Match>
+  <Match>
+    <Class name="~^android\.support\.v7\.appcompat\.R\$.*"/>
+  </Match>
+  <Match>
+    <Class name="~.*^android\.support\.v7\.appcompat\.R\$.*"/>
+  </Match>
+  <Match>
+    <Class name="~.*\android\.support\.v7\.appcompat\.R\$.*"/>
+  </Match>
+  <Match>
+    <Class name="~.*\.android\.support\.v7\.appcompat\.R\$.*"/>
+  </Match>
+  <Match>
+    <Class name="~^android.support.v7.appcompat\.R\$.*"/>
+  </Match>
+  <Match>
+    <Class name="~.*\com.facebook.*"/>
+  </Match>
+  <Match>
+    <Class name="~.*\com.google.*"/>
+  </Match>
+
+
+</FindBugsFilter>

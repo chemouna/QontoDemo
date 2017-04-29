@@ -1,0 +1,81 @@
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+task checkstyle(type: Checkstyle) {
+  doLast {
+    configFile file("${project.rootDir}/gradle/config/quality/checkstyle/config.xml")
+    // Where my checkstyle config is...
+    //configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/gradle/config/quality/checkstyle/suppressions.xml").absolutePath // Where is my suppressions file for checkstyle is...
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    classpath = files()
+    reports {
+      xml.enabled = false
+      html.enabled = true
+      xml {
+        destination "$project.buildDir/reports/checkstyle/checkstyle.xml"
+      }
+      html {
+        destination "$project.buildDir/reports/checkstyle/checkstyle.html"
+      }
+    }
+  }
+}
+
+task findbugs(type: FindBugs) {
+  doLast {
+    ignoreFailures = false
+    effort = "max"
+    reportLevel = "high"
+    excludeFilter = new File("${project.rootDir}/gradle/config/quality/findbugs/exclude-filter.xml")
+    classes = files("${project.rootDir}/BlaBlaCar/build/intermediates/classes")
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+      xml.enabled = false
+      html.enabled = true
+      xml {
+        destination "$project.buildDir/reports/findbugs/findbugs.xml"
+      }
+      html {
+        destination "$project.buildDir/reports/findbugs/findbugs.html"
+      }
+    }
+
+    classpath = files()
+  }
+}
+
+task pmd(type: Pmd) {
+  doLast {
+    ruleSetFiles = files("${project.rootDir}/gradle/config/quality/pmd/rule-set.xml")
+    ignoreFailures = true
+    ruleSets = []
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+      xml.enabled = false
+      html.enabled = true
+      xml {
+        destination "$project.buildDir/reports/pmd/pmd.xml"
+      }
+      html {
+        destination "$project.buildDir/reports/pmd/pmd.html"
+      }
+    }
+  }
+}
+
+task checking(dependsOn: ['findbugs', 'lintDefaultConfigDebug', 'pmd', 'checkstyle']) {
+  doLast {
+    println 'running checking task'
+  }
+}
